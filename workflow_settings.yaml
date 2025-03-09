@@ -1,0 +1,5 @@
+defaultProject: eternal-arcana-449014-d1
+defaultLocation: europe-west2
+defaultDataset: DE_2025_final_DW
+defaultAssertionDataset: dataform_assertions
+dataformCoreVersion: 3.0.0
