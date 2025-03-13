@@ -1,0 +1,21 @@
+-- First config block for external table
+config {
+  type: "operations",
+  hasOutput: true,
+  schema: "DE_2025_final_DW",
+  name: "nhs_ae_external_01_07_2020"
+}
+
+CREATE OR REPLACE EXTERNAL TABLE ${self()}
+OPTIONS (
+  format = 'CSV',
+  uris = [
+    'gs://de_2025_final_bucket_af/Monthly-AE-01-2020.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-02-2020.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-03-2020.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-04-2020.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-05-2020.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-06-2020.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-07-2020.csv'],
+  skip_leading_rows = 1
+)
