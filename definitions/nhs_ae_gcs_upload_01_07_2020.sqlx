@@ -3,7 +3,7 @@ config {
   type: "operations",
   hasOutput: true,
   schema: "DE_2025_final_DW",
-  name: "nhs_ae_external_01_07_2020"
+  name: "nhs_ae_gcs_upload_01_07_2020"
 }
 
 CREATE OR REPLACE EXTERNAL TABLE ${self()}
