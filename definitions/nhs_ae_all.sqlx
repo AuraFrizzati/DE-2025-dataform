@@ -1,0 +1,19 @@
+-- nhs_ae_batch_01_07_2020.sqlx
+config {
+  type: "table",
+  schema: "DE_2025_final_DW",
+  name: "nhs_ae_all",
+  description: "Internal BigQuery table populated from external CSV data.",
+  dependencies: ["nhs_ae_batch_01_07_2020", "nhs_ae_batch_08_2020_2025"]
+}
+
+WITH nhs_ae_all AS (
+  SELECT * FROM ${ref("nhs_ae_batch_01_07_2020")}
+  UNION ALL
+  SELECT * FROM ${ref("nhs_ae_batch_08_2020_2025")}
+)
+SELECT
+  --REGEXP_EXTRACT(Period, r'-(.+)') AS extracted_date
+  PARSE_DATE('%B-%Y', REGEXP_EXTRACT(Period, r'-(.+)')) AS year_month
+  ,*
+FROM nhs_ae_all
