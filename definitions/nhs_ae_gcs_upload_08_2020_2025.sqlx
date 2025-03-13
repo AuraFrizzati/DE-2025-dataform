@@ -3,7 +3,7 @@ config {
   type: "operations",
   hasOutput: true,
   schema: "DE_2025_final_DW",
-  name: "nhs_ae_gcs_upload_08_12_2020"
+  name: "nhs_ae_gcs_upload_08_2020_2025"
 }
 
 CREATE OR REPLACE EXTERNAL TABLE ${self()}
@@ -14,6 +14,11 @@ OPTIONS (
     ,'gs://de_2025_final_bucket_af/Monthly-AE-09-2020.csv'
     ,'gs://de_2025_final_bucket_af/Monthly-AE-10-2020.csv'
     ,'gs://de_2025_final_bucket_af/Monthly-AE-11-2020.csv'
-    ,'gs://de_2025_final_bucket_af/Monthly-AE-12-2020.csv'],
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-12-2020.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-*-2021.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-*-2022.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-*-2023.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-*-2024.csv'
+    ,'gs://de_2025_final_bucket_af/Monthly-AE-*-2025.csv'],
   skip_leading_rows = 1
 )
