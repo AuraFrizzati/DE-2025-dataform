@@ -9,6 +9,14 @@ config {
 
 SELECT
   *
+  -- Add columns missing in the earliest extracts
+  ,NULL AS A_E_attendances_Booked_Appointments_Type_1
+  ,NULL AS A_E_attendances_Booked_Appointments_Type_2
+  ,NULL AS A_E_attendances_Booked_Appointments_Other_Department
+  ,NULL AS Attendances_over_4hrs_Booked_Appointments_Type_1
+  ,NULL AS Attendances_over_4hrs_Booked_Appointments_Type_2
+  ,NULL AS Attendances_over_4hrs_Booked_Appointments_Other_Department
+
 FROM
   ${ref("nhs_ae_gcs_upload_01_07_2020")}
 WHERE Period IS NOT NULL
