@@ -1,0 +1,14 @@
+-- nhs_ae_batch_01_07_2020.sqlx
+config {
+  type: "table",
+  schema: "DE_2025_final_DW",
+  name: "nhs_ae_batch_08_12_2020",
+  description: "Internal BigQuery table populated from external CSV data.",
+  dependencies: ["nhs_ae_gcs_upload_08_12_2020"]
+}
+
+SELECT
+  *
+FROM
+  ${ref("nhs_ae_gcs_upload_08_12_2020")}
+WHERE Period IS NOT NULL
