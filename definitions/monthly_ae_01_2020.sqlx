@@ -1,0 +1,16 @@
+config {
+  type: "declaration",
+  database: "eternal-arcana-449014-d1",
+  schema: "DE_2025_final_DW",
+  name: "Monthly-AE-01-2020",
+  description: "External table loaded from CSV in GCS"
+}
+
+SELECT * 
+FROM EXTERNAL_TABLE(
+  OPTIONS(
+    format = 'CSV',
+    uris = ['gs://de_2025_final_bucket_af/Monthly-AE-01-2020.csv'],
+    skip_leading_rows = 1
+  )
+)
