@@ -6,6 +6,7 @@ config {
   description: "Internal BigQuery table populated from external CSV data.",
   dependencies: ["nhs_ae_batch_01_07_2020", "nhs_ae_batch_08_2020_2025"],
   bigquery: {
+    partitionBy: "DATE_TRUNC(year_month, MONTH)",
     clusterBy: ["Parent_Org_cln", "Org_name"]
   }
 }
@@ -17,7 +18,8 @@ WITH nhs_ae_all AS (
 )
 SELECT
   --REGEXP_EXTRACT(Period, r'-(.+)') AS extracted_date
-  FORMAT_DATE('%Y-%m', PARSE_DATE('%B-%Y', REGEXP_EXTRACT(Period, r'-(.+)'))) AS year_month
+  --FORMAT_DATE('%Y-%m', PARSE_DATE('%B-%Y', REGEXP_EXTRACT(Period, r'-(.+)'))) AS year_month
+  PARSE_DATE('%Y-%m-%d', CONCAT(FORMAT_DATE('%Y-%m', PARSE_DATE('%B-%Y', REGEXP_EXTRACT(Period, r'-(.+)'))), '-01')) AS year_month
   ,*
   -- create an overall measure of A&E Attendance Volumes
   ,A_E_attendances_Type_1 + A_E_attendances_Type_2 + A_E_attendances_Other_A_E_Department AS A_E_attendances_overall
