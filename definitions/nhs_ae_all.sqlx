@@ -4,7 +4,10 @@ config {
   schema: "DE_2025_final_DW",
   name: "nhs_ae_all",
   description: "Internal BigQuery table populated from external CSV data.",
-  dependencies: ["nhs_ae_batch_01_07_2020", "nhs_ae_batch_08_2020_2025"]
+  dependencies: ["nhs_ae_batch_01_07_2020", "nhs_ae_batch_08_2020_2025"],
+  bigquery: {
+    clusterBy: ["Parent_Org_cln", "Org_name"]
+  }
 }
 
 WITH nhs_ae_all AS (
@@ -14,6 +17,18 @@ WITH nhs_ae_all AS (
 )
 SELECT
   --REGEXP_EXTRACT(Period, r'-(.+)') AS extracted_date
-  PARSE_DATE('%B-%Y', REGEXP_EXTRACT(Period, r'-(.+)')) AS year_month
+  FORMAT_DATE('%Y-%m', PARSE_DATE('%B-%Y', REGEXP_EXTRACT(Period, r'-(.+)'))) AS year_month
   ,*
+  -- create an overall measure of A&E Attendance Volumes
+  ,A_E_attendances_Type_1 + A_E_attendances_Type_2 + A_E_attendances_Other_A_E_Department AS A_E_attendances_overall
+  
+  -- create an overall measure of A&E Attendance over 4-hours Volumes
+  ,Attendances_over_4hrs_Type_1 + Attendances_over_4hrs_Type_2 + Attendances_over_4hrs_Other_Department AS A_E_attendances_over_4hrs_overall
+ 
+  -- create an overall measure of Emergency Hospital Admissions via A&E
+  ,Emergency_admissions_via_A_E___Type_1 + Emergency_admissions_via_A_E___Type_2 + Emergency_admissions_via_A_E___Other_A_E_department AS Emergency_admissions_via_A_E_overall
+
+  -- satndardise the Parent Organisation name so it matches in all extracts
+  ,SPLIT(Parent_Org, ' (')[SAFE_OFFSET(0)] AS Parent_Org_cln
+
 FROM nhs_ae_all
