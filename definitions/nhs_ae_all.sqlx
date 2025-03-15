@@ -4,7 +4,7 @@ config {
   schema: "DE_2025_final_DW",
   name: "nhs_ae_all",
   description: "Internal BigQuery table populated from external CSV data.",
-  dependencies: ["nhs_ae_batch_01_07_2020", "nhs_ae_batch_08_2020_2025"],
+  dependencies: ["nhs_ae_batch_01_07_2020", "nhs_ae_batch_08_2020_2025","DE_2025_final_DW_nhs_ae_batch_01_07_2020_assertions_rowConditions", "DE_2025_final_DW_nhs_ae_batch_08_2020_2025_assertions_rowConditions"],
   bigquery: {
     partitionBy: "DATE_TRUNC(year_month, MONTH)",
     clusterBy: ["Parent_Org_cln", "Org_name"]

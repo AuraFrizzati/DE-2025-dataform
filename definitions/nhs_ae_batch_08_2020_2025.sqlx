@@ -4,7 +4,10 @@ config {
   schema: "DE_2025_final_DW",
   name: "nhs_ae_batch_08_2020_2025",
   description: "Internal BigQuery table populated from external CSV data.",
-  dependencies: ["nhs_ae_gcs_upload_08_2020_2025"]
+  dependencies: ["nhs_ae_gcs_upload_08_2020_2025"],
+  assertions: {
+    nonNull: ["Period", "Parent_Org", "Org_Name"]
+  }
 }
 
 SELECT
