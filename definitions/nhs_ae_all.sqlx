@@ -1,4 +1,4 @@
--- nhs_ae_batch_01_07_2020.sqlx
+-- nhs_ae_all.sqlx
 config {
   type: "table",
   schema: "DE_2025_final_DW",

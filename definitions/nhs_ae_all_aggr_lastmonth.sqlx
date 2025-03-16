@@ -1,0 +1,28 @@
+-- nhs_ae_all.sqlx
+config {
+  type: "table",
+  schema: "DE_2025_final_DW",
+  name: "nhs_ae_all_aggr_lastmonth",
+  description: "Internal BigQuery table populated from external CSV data.",
+  dependencies: ["nhs_ae_all"]
+}
+
+SELECT
+  year_month, 
+  Parent_Org_cln
+  ,SUM(A_E_attendances_overall) AS A_E_attendances_overall 
+  ,SUM(A_E_attendances_over_4hrs_overall) AS A_E_attendances_over_4hrs_overall 
+  ,SUM(Emergency_admissions_via_A_E_overall) AS Emergency_admissions_via_A_E_overall 
+  ,CASE
+    WHEN SUM(A_E_attendances_overall) = 0 THEN 0  
+    ELSE ROUND(100*SUM(A_E_attendances_over_4hrs_overall) / SUM(A_E_attendances_overall), 2)
+  END AS A_E_attendances_over_4hrs_percent
+  ,CASE
+    WHEN SUM(A_E_attendances_overall) = 0 THEN 0  
+    ELSE ROUND(100*SUM(Emergency_admissions_via_A_E_overall) / SUM(A_E_attendances_overall), 2)
+  END AS Emergency_admissions_via_A_E_percent
+
+FROM ${ref("nhs_ae_all")}
+WHERE year_month = (SELECT MAX(year_month) FROM ${ref("nhs_ae_all")} )
+GROUP BY year_month, Parent_Org_cln 
+ORDER BY Parent_Org_cln  
