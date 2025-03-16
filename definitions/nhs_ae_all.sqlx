@@ -30,7 +30,8 @@ SELECT
   -- create an overall measure of Emergency Hospital Admissions via A&E
   ,Emergency_admissions_via_A_E___Type_1 + Emergency_admissions_via_A_E___Type_2 + Emergency_admissions_via_A_E___Other_A_E_department AS Emergency_admissions_via_A_E_overall
 
-  -- satndardise the Parent Organisation name so it matches in all extracts
-  ,SPLIT(Parent_Org, ' (')[SAFE_OFFSET(0)] AS Parent_Org_cln
+  -- standardise the Parent Organisation name so it matches in all extracts
+  --,SPLIT(Parent_Org, ' (')[SAFE_OFFSET(0)] AS Parent_Org_cln
+  ,TRIM(REGEXP_REPLACE(SUBSTR(Parent_Org, LENGTH('NHS ENGLAND ') + 1, LENGTH(Parent_Org)), r'\(.*?\)', '')) AS Parent_Org_cln
 
 FROM nhs_ae_all
