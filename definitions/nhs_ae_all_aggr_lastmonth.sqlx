@@ -1,4 +1,4 @@
--- nhs_ae_all.sqlx
+-- nhs_ae_all_aggr_lastmonth.sqlx
 config {
   type: "table",
   schema: "DE_2025_final_DW",
